@@ -125,7 +125,6 @@ class _LoginStatefullPageState extends State<LoginStatefullPage> {
           TextFormField(
             keyboardType: TextInputType.number,
             onChanged: (value) {
-              print(value);
               edad = int.tryParse(value) ?? 0;
               setState(() {});
             },

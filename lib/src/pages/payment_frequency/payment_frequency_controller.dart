@@ -1,11 +1,9 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/src/models/payment_frequency_model.dart';
 import 'package:flutter_app/src/pages/payment_frequency/add_payment_frequency_page.dart';
 import 'package:flutter_app/src/services/app_http_manager.dart';
 import 'package:flutter_app/src/services/app_response.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 class PaymentFrequencyController extends GetxController {
   List<PaymentFrequencyModel> frecuencias = [];
@@ -66,17 +64,19 @@ class PaymentFrequencyController extends GetxController {
   }
 
   void _eliminarDelServidor(int position) async {
-    PaymentFrequencyModel paymentFrequency = frecuencias[position];
-    Uri url = Uri.http('10.0.2.2:3001',
-        'utils/payment-frequency/delete/${paymentFrequency.id}');
-    http.Response response = await http.delete(
-      url,
-    );
-
-    log('Response status: ${response.statusCode}');
-    if (response.statusCode >= 200 && response.statusCode <= 299) {
+    AppHttpManager appHttpManager = AppHttpManager();
+    validando = true;
+    update(['validando']);
+    PaymentFrequencyModel selected = frecuencias[position];
+    AppResponse response =
+        await appHttpManager.delete(path: '/customer/delete/${selected.id}');
+    validando = false;
+    update(['validando']);
+    if (response.isSuccess) {
       frecuencias.removeAt(position);
-      update(['validando']);
+      update();
+    } else {
+      Get.snackbar('error', 'Ocurrio un error');
     }
   }
 

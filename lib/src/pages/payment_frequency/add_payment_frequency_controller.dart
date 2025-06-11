@@ -36,10 +36,12 @@ class AddPaymentFrequencyController extends GetxController {
   String? validar() {
     if (name.trim().isEmpty) return 'Este campo no debe ser vacio.';
     if (description.trim().isEmpty) return 'Este campo no debe ser vacio.';
-    if (recommendedPercentage.trim().isEmpty)
+    if (recommendedPercentage.trim().isEmpty) {
       return 'Este campo no debe ser vacio.';
-    if (monthlyInstallments.trim().isEmpty)
+    }
+    if (monthlyInstallments.trim().isEmpty) {
       return 'Este campo no debe ser vacio.';
+    }
     if (daysInstallment.trim().isEmpty) return 'PhoneNumber no debe ser vacio.';
     return null;
   }
@@ -88,7 +90,6 @@ class AddPaymentFrequencyController extends GetxController {
       if (response.statusCode >= 200 && response.statusCode <= 299) {
         PaymentFrequencyModel paymentFrequency =
             addPaymentFrequencyModelFromJson(response.body);
-        print(paymentFrequency.name);
         Get.back(result: paymentFrequency);
       } else {
         showSnackbar('Ocurrio un error con el servidor');

@@ -48,8 +48,6 @@ class LoginController extends GetxController {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('estaLogeado', true);
       Get.off(() => HomePage());
-
-      print(userModel.name);
     } else {
       showSnackbar('Ocurrio un error con el servidor');
     }

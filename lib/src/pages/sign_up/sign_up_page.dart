@@ -33,7 +33,7 @@ class SignUpPage extends StatelessWidget {
             ),
             GetBuilder<SignUpController>(
               id: 'validando',
-              builder: (_) => _.validando
+              builder: (controller) => controller.validando
                   ? Container(
                       alignment: Alignment.center,
                       color: Colors.black45,

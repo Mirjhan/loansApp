@@ -49,7 +49,7 @@ class LoginPage extends StatelessWidget {
             ),
             GetBuilder<LoginController>(
               id: 'validando',
-              builder: (_) => _.validando
+              builder: (controller) => controller.validando
                   ? Container(
                       alignment: Alignment.center,
                       color: Colors.black45,

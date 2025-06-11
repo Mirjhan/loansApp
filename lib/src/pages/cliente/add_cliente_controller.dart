@@ -89,7 +89,6 @@ class AddClienteController extends GetxController {
       log('Response status: ${response.statusCode}');
       if (response.statusCode >= 200 && response.statusCode <= 299) {
         ClienteModel cliente = addClienteModelFromJson(response.body);
-        print(cliente.name);
         Get.back(result: cliente);
       } else {
         showSnackbar('Ocurrio un error con el servidor');
@@ -124,7 +123,6 @@ class AddClienteController extends GetxController {
       if (response.statusCode >= 200 && response.statusCode <= 299) {
         if (response.statusCode >= 200 && response.statusCode <= 299) {
           ClienteModel cliente = addClienteModelFromJson(response.body);
-          print(cliente.name);
           Get.back(result: cliente);
         } else {
           showSnackbar('Ocurrio un error con el servidor');

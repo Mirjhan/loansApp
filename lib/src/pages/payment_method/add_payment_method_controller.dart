@@ -59,7 +59,6 @@ class AddPaymentMethodController extends GetxController {
       if (response.statusCode >= 200 && response.statusCode <= 299) {
         PaymentMethodModel paymentMethod =
             addPaymentMethodModelFromJson(response.body);
-        print(paymentMethod.name);
         Get.back(result: paymentMethod);
       } else {
         showSnackbar('Ocurrio un error con el servidor');

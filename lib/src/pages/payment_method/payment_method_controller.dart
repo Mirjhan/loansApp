@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/src/models/payment_method_model.dart';
 import 'package:flutter_app/src/pages/payment_method/add_payment_method_page.dart';
 import 'package:flutter_app/src/services/app_http_manager.dart';
 import 'package:flutter_app/src/services/app_response.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 class PaymentMethodController extends GetxController {
   List<PaymentMethodModel> metodos = [];
@@ -82,17 +79,19 @@ class PaymentMethodController extends GetxController {
   }
 
   void _eliminarDelServidor(int position) async {
-    PaymentMethodModel paymentMethod = metodos[position];
-    Uri url = Uri.http(
-        '10.0.2.2:3001', 'utils/payment-method/delete/${paymentMethod.id}');
-    http.Response response = await http.delete(
-      url,
-    );
-
-    log('Response status: ${response.statusCode}');
-    if (response.statusCode >= 200 && response.statusCode <= 299) {
+    AppHttpManager appHttpManager = AppHttpManager();
+    validando = true;
+    update(['validando']);
+    PaymentMethodModel selected = metodos[position];
+    AppResponse response = await appHttpManager.delete(
+        path: '/utils/payment-method/delete/${selected.id}');
+    validando = false;
+    update(['validando']);
+    if (response.isSuccess) {
       metodos.removeAt(position);
       update();
+    } else {
+      Get.snackbar('error', 'Ocurrio un error');
     }
   }
 }

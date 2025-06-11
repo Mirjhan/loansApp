@@ -1,11 +1,9 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/src/models/cliente_model.dart';
 import 'package:flutter_app/src/pages/cliente/add_cliente_page.dart';
 import 'package:flutter_app/src/services/app_http_manager.dart';
 import 'package:flutter_app/src/services/app_response.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 class ClienteController extends GetxController {
   List<ClienteModel> clientes = [];
