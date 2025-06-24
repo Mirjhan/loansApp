@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/src/pages/dashboard/home_page.dart';
+import 'package:flutter_app/src/ui/pages/dashboard/home_page.dart';
 import 'package:get/get.dart';
 
 class MyApp extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter_app/src/models/user_model.dart';
-import 'package:flutter_app/src/pages/dashboard/home_page.dart';
-import 'package:flutter_app/src/pages/sign_up/sign_up_page.dart';
+import 'package:flutter_app/src/ui/pages/dashboard/home_page.dart';
+import 'package:flutter_app/src/ui/pages/sign_up/sign_up_page.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';

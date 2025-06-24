@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/src/pages/cliente/cliente_controller.dart';
+import 'package:flutter_app/src/ui/pages/cliente/cliente_controller.dart';
 import 'package:get/get.dart';
 
 class ClientePage extends StatelessWidget {

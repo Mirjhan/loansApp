@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/src/models/cliente_model.dart';
-import 'package:flutter_app/src/pages/cliente/add_cliente_page.dart';
+import 'package:flutter_app/src/ui/pages/cliente/add_cliente_page.dart';
 import 'package:flutter_app/src/services/app_http_manager.dart';
 import 'package:flutter_app/src/services/app_response.dart';
 import 'package:get/get.dart';

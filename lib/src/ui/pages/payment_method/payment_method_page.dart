@@ -1,42 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/src/pages/payment_frequency/payment_frequency_controller.dart';
+import 'package:flutter_app/src/ui/pages/payment_method/payment_method_controller.dart';
 import 'package:get/get.dart';
 
-class PaymentFrequencyPage extends StatelessWidget {
-  PaymentFrequencyPage({super.key});
+class PaymentMethodPage extends StatelessWidget {
+  PaymentMethodPage({super.key});
 
-  final PaymentFrequencyController controller = PaymentFrequencyController();
+  final PaymentMethodController controller = PaymentMethodController();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<PaymentFrequencyController>(
+    return GetBuilder<PaymentMethodController>(
       init: controller,
       builder: (controller) => Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Frecuencia de Pagos',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          backgroundColor: Colors.redAccent,
+          title: Text('Metodo de Pago'),
           centerTitle: true,
+          backgroundColor: Colors.redAccent,
         ),
         body: Stack(
           children: [
             RefreshIndicator(
-              onRefresh: controller.getPaymentFrequency,
+              onRefresh: controller.getPaymentMethod,
               child: ListView.separated(
                 separatorBuilder: (context, index) => Divider(),
-                itemCount: controller.frecuencias.length,
+                itemCount: controller.metodos.length,
                 itemBuilder: (context, index) => itemListTile(
-                    '${controller.frecuencias[index].recommendedPercentage.toString()}%',
-                    controller.frecuencias[index].name,
-                    controller.frecuencias[index].description,
+                    controller.metodos[index].name,
+                    controller.metodos[index].description,
                     index),
               ),
             ),
-            GetBuilder<PaymentFrequencyController>(
+            GetBuilder<PaymentMethodController>(
               id: 'validando',
               builder: (controller) => controller.validando
                   ? Container(
@@ -49,41 +43,28 @@ class PaymentFrequencyPage extends StatelessWidget {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: controller.goToAddPaymentFrequencyPage,
+          onPressed: controller.goToAddPaymentMethodPage,
           child: Icon(Icons.add),
         ),
       ),
     );
   }
 
-  Widget itemListTile(
-      String porcentaje, String title, String subtitle, int position) {
+  Widget itemListTile(String title, String subtitle, int position) {
     return Padding(
       padding: EdgeInsets.all(5),
       child: ListTile(
         leading: CircleAvatar(
-            radius: 40,
-            child: Text(
-              porcentaje,
-              style: TextStyle(
-                color: Colors.redAccent,
-                fontSize: 25,
-                fontWeight: FontWeight.w900,
-              ),
-            )),
+          radius: 40,
+          child: Icon(
+            Icons.phone_android_outlined,
+          ),
+        ),
         title: Text(
           title,
-          style: TextStyle(
-            color: Colors.redAccent,
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
         ),
         subtitle: Text(
           subtitle,
-          style: TextStyle(
-            fontSize: 18,
-          ),
         ),
         trailing: SizedBox(
           width: 96,

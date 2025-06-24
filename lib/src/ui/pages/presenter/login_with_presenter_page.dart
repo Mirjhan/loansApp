@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/src/pages/presenter/login_presenter.dart';
+import 'package:flutter_app/src/ui/pages/presenter/login_presenter.dart';
 
 class LoginWithPresenterPage extends StatefulWidget {
   const LoginWithPresenterPage({super.key});

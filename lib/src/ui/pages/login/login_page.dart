@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/src/pages/login/login_controller.dart';
+import 'package:flutter_app/src/ui/pages/login/login_controller.dart';
 import 'package:get/get.dart';
 
 // ignore: must_be_immutable

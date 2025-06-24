@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/src/pages/dashboard/drawer_widget.dart';
-import 'package:flutter_app/src/pages/dashboard/home_controller.dart';
+import 'package:flutter_app/src/ui/pages/dashboard/drawer_widget.dart';
+import 'package:flutter_app/src/ui/pages/dashboard/home_controller.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {

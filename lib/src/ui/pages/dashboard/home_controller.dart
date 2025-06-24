@@ -1,8 +1,8 @@
-import 'package:flutter_app/src/pages/cliente/cliente_page.dart';
-import 'package:flutter_app/src/pages/login/login_page.dart';
-import 'package:flutter_app/src/pages/payment_frequency/payment_frequency_page.dart';
-import 'package:flutter_app/src/pages/payment_method/payment_method_page.dart';
-import 'package:flutter_app/src/pages/usuarios/usuario_page.dart';
+import 'package:flutter_app/src/ui/pages/cliente/cliente_page.dart';
+import 'package:flutter_app/src/ui/pages/login/login_page.dart';
+import 'package:flutter_app/src/ui/pages/payment_frequency/payment_frequency_page.dart';
+import 'package:flutter_app/src/ui/pages/payment_method/payment_method_page.dart';
+import 'package:flutter_app/src/ui/pages/usuarios/usuario_page.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

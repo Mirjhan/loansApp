@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/src/pages/usuarios/usuario_controller.dart';
+import 'package:flutter_app/src/ui/pages/usuarios/usuario_controller.dart';
 import 'package:get/get.dart';
 
 class UsuarioPage extends StatelessWidget {
