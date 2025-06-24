@@ -71,7 +71,9 @@ class AddPaymentFrequencyPage extends StatelessWidget {
           ),
         ),
         floatingActionButton: GestureDetector(
-          onTap: controller.editando ? controller.edit : controller.send,
+          onTap: controller.editando
+              ? controller.edit
+              : controller.createPaymentFrequency,
           child: Container(
             padding: EdgeInsets.only(top: 8, bottom: 8, right: 30, left: 30),
             decoration: BoxDecoration(

@@ -27,49 +27,62 @@ class AddClientePage extends StatelessWidget {
             child: Column(
               children: [
                 inputWidget(
-                  'name',
-                  Icons.abc,
-                  TextInputType.name,
-                  controller.onChangedName,
-                  controller.clienteSeleccionado?.name,
+                  hintText: 'name',
+                  icon: Icons.abc,
+                  keyboardType: TextInputType.name,
+                  onChanged: controller.onChangedName,
+                  initialValue: controller.clienteSeleccionado?.name,
                 ),
                 inputWidget(
-                  'lastName',
-                  Icons.abc,
-                  TextInputType.name,
-                  controller.onChangedLastName,
-                  controller.clienteSeleccionado?.lastName,
+                  hintText: 'lastName',
+                  icon: Icons.abc,
+                  keyboardType: TextInputType.name,
+                  onChanged: controller.onChangedLastName,
+                  initialValue: controller.clienteSeleccionado?.lastName,
                 ),
                 inputWidget(
-                    'address',
-                    Icons.email,
-                    TextInputType.emailAddress,
-                    controller.onChangedAddress,
-                    controller.clienteSeleccionado?.address),
+                  hintText: 'address',
+                  icon: Icons.email,
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: controller.onChangedAddress,
+                  initialValue: controller.clienteSeleccionado?.address,
+                ),
                 inputWidget(
-                    'latitude',
-                    Icons.abc_sharp,
-                    TextInputType.name,
-                    controller.onChangedLatitude,
-                    controller.clienteSeleccionado?.latitude),
+                  hintText: 'latitude',
+                  icon: Icons.abc_sharp,
+                  keyboardType: TextInputType.name,
+                  onChanged: controller.onChangedLatitude,
+                  initialValue: controller.clienteSeleccionado?.latitude,
+                ),
                 inputWidget(
-                    'longitude',
-                    Icons.abc,
-                    TextInputType.name,
-                    controller.onChangedLongitude,
-                    controller.clienteSeleccionado?.longitude),
+                  hintText: 'longitude',
+                  icon: Icons.abc,
+                  keyboardType: TextInputType.name,
+                  onChanged: controller.onChangedLongitude,
+                  initialValue: controller.clienteSeleccionado?.longitude,
+                ),
                 inputWidget(
-                    'document',
-                    Icons.perm_identity_sharp,
-                    TextInputType.number,
-                    controller.onChangedDocument,
-                    controller.clienteSeleccionado?.document),
+                  hintText: 'idTypeDocument',
+                  icon: Icons.numbers,
+                  keyboardType: TextInputType.number,
+                  onChanged: (p0) => controller.onChangedIdTypeDocument,
+                  initialValue:
+                      controller.clienteSeleccionado?.idTypeDocument.toString(),
+                ),
+                inputWidget(
+                  hintText: 'document',
+                  icon: Icons.perm_identity_sharp,
+                  keyboardType: TextInputType.number,
+                  onChanged: controller.onChangedDocument,
+                  initialValue: controller.clienteSeleccionado?.document,
+                ),
               ],
             ),
           ),
         ),
         floatingActionButton: GestureDetector(
-          onTap: controller.editando ? controller.edit : controller.send,
+          onTap:
+              controller.editando ? controller.edit : controller.createCliente,
           child: Container(
             padding: EdgeInsets.only(top: 8, bottom: 8, right: 30, left: 30),
             decoration: BoxDecoration(
@@ -91,8 +104,13 @@ class AddClientePage extends StatelessWidget {
     );
   }
 
-  Widget inputWidget(String hintText, IconData icon, TextInputType keyboardType,
-      void Function(String)? onChanged, String? initialValue) {
+  Widget inputWidget({
+    required String hintText,
+    required IconData icon,
+    required TextInputType keyboardType,
+    required void Function(String)? onChanged,
+    required String? initialValue,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: TextFormField(

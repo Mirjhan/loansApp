@@ -44,7 +44,7 @@ class LoginController extends GetxController {
 
     log('Response status: ${response.statusCode}');
     if (response.statusCode >= 200 && response.statusCode <= 299) {
-      UserModel userModel = userModelFromJson(response.body);
+      userModelFromJson(response.body);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('estaLogeado', true);
       Get.off(() => HomePage());

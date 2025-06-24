@@ -10,9 +10,9 @@ class ClienteController extends GetxController {
   bool validando = false;
 
   @override
-  void onInit() async {
+  void onReady() async {
     getClientes();
-    super.onInit();
+    super.onReady();
   }
 
   Future<void> getClientes() async {

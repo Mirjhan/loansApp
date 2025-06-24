@@ -1,8 +1,8 @@
-import 'dart:developer';
-
+import 'package:flutter_app/src/data/requests/cliente_request.dart';
 import 'package:flutter_app/src/models/cliente_model.dart';
+import 'package:flutter_app/src/services/app_http_manager.dart';
+import 'package:flutter_app/src/services/app_response.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 class AddClienteController extends GetxController {
   ClienteModel? clienteSeleccionado;
@@ -12,6 +12,7 @@ class AddClienteController extends GetxController {
   String address = "";
   String latitude = "";
   String longitude = "";
+  int idTypeDocument = 1;
   String document = "";
   bool validando = false;
   bool editando = false;
@@ -27,6 +28,7 @@ class AddClienteController extends GetxController {
         address = clienteSeleccionado?.address ?? '';
         latitude = clienteSeleccionado?.latitude ?? '';
         longitude = clienteSeleccionado?.longitude ?? '';
+        idTypeDocument = clienteSeleccionado?.idTypeDocument ?? 1;
         document = clienteSeleccionado?.document ?? '';
       }
     }
@@ -61,38 +63,44 @@ class AddClienteController extends GetxController {
     longitude = value;
   }
 
+  void onChangedIdTypeDocument(String value) {
+    int? convertido = int.tryParse(value);
+    if (convertido != null) {
+      idTypeDocument = convertido;
+    }
+  }
+
   void onChangedDocument(String value) {
     document = value;
   }
 
-  Future<void> send() async {
+  Future<void> createCliente() async {
     String? mensaje = validar();
     if (mensaje != null) {
       showSnackbar(mensaje);
       return;
     } else {
-      Uri url = Uri.http('10.0.2.2:3001', 'customer/create');
+      AppHttpManager appHttpManager = AppHttpManager();
       validando = true;
       update(['validando']);
-
-      http.Response response = await http.post(url, body: {
-        'name': name,
-        'lastName': lastName,
-        'address': address,
-        'longitude': longitude,
-        'latitude': latitude,
-        'document': document,
-      });
+      ClienteRequest clienteRequest = ClienteRequest(
+        name: name,
+        lastName: lastName,
+        address: address,
+        latitude: latitude,
+        longitude: longitude,
+        idTypeDocument: idTypeDocument,
+        document: document,
+      );
+      AppResponse response = await appHttpManager.post(
+          path: '/customer/create', body: clienteRequest.toJson());
       validando = false;
       update(['validando']);
-
-      log('Response status: ${response.statusCode}');
-      if (response.statusCode >= 200 && response.statusCode <= 299) {
-        ClienteModel cliente = addClienteModelFromJson(response.body);
-        Get.back(result: cliente);
+      if (response.isSuccess) {
+        ClienteModel clienteModel = addClienteModelFromJson(response.body);
+        Get.back(result: clienteModel);
       } else {
         showSnackbar('Ocurrio un error con el servidor');
-        log(response.body);
       }
     }
   }
@@ -103,31 +111,31 @@ class AddClienteController extends GetxController {
       showSnackbar(mensaje);
       return;
     } else {
-      Uri url = Uri.http('10.0.2.2:3001', 'customer/update');
+      AppHttpManager appHttpManager = AppHttpManager();
       validando = true;
       update(['validando']);
+      ClienteRequest clienteRequest = ClienteRequest(
+        id: clienteSeleccionado?.id,
+        name: name,
+        lastName: lastName,
+        address: address,
+        latitude: latitude,
+        longitude: longitude,
+        idTypeDocument: idTypeDocument,
+        document: document,
+      );
 
-      http.Response response = await http.put(url, body: {
-        'id': clienteSeleccionado?.id.toString(),
-        'name': name,
-        'lastName': lastName,
-        'address': address,
-        'longitude': longitude,
-        'latitude': latitude,
-        'document': document,
-      });
+      AppResponse response = await appHttpManager.put(
+        path: '/customer/update',
+        body: clienteRequest.toJson(),
+      );
       validando = false;
       update(['validando']);
-
-      log('Response status: ${response.statusCode}');
-      if (response.statusCode >= 200 && response.statusCode <= 299) {
-        if (response.statusCode >= 200 && response.statusCode <= 299) {
-          ClienteModel cliente = addClienteModelFromJson(response.body);
-          Get.back(result: cliente);
-        } else {
-          showSnackbar('Ocurrio un error con el servidor');
-          log(response.body);
-        }
+      if (response.isSuccess) {
+        ClienteModel clienteModel = addClienteModelFromJson(response.body);
+        Get.back(result: clienteModel);
+      } else {
+        showSnackbar('Ocurrio un error con el servidor');
       }
     }
   }

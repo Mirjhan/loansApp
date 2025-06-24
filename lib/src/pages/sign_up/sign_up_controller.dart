@@ -66,7 +66,7 @@ class SignUpController extends GetxController {
 
       log('Response status: ${response.statusCode}');
       if (response.statusCode >= 200 && response.statusCode <= 299) {
-        UserModel userModel = userModelFromJson(response.body);
+        userModelFromJson(response.body);
       } else {
         showSnackbar('Ocurrio un error con el servidor');
       }

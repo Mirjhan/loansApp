@@ -102,7 +102,7 @@ class HomePage extends StatelessWidget {
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1), // Sombra suave
+            color: Colors.black.withValues(alpha: 0.1), // Sombra suave
             blurRadius: 10, // Difuminado de la sombra
             offset: Offset(1, 2), // Desplazamiento de la sombra
           ),

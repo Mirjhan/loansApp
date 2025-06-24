@@ -19,7 +19,7 @@ class ClienteModel {
   String address;
   dynamic latitude;
   dynamic longitude;
-  String idTypeDocument;
+  int idTypeDocument;
   String document;
   DateTime createdAt;
   DateTime updatedAt;

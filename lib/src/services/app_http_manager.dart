@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter_app/src/core/config.dart';
 import 'package:flutter_app/src/services/app_response.dart';
@@ -13,14 +15,42 @@ class AppHttpManager {
     log('Request: GET');
     http.Response response = await http.get(
       Uri.parse(_uriBuilder(path: path, query: query)),
-      headers: headers,
+      headers: _headersBuilder(headers),
     );
     return returnResponse(response);
   }
 
-  void post() {}
+  Future<AppResponse> post({
+    required String path,
+    Map<String, String>? headers,
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? body,
+  }) async {
+    log('Request: POST');
+    log('Body: ${body.toString()}');
+    http.Response response = await http.post(
+      Uri.parse(_uriBuilder(path: path, query: query)),
+      headers: _headersBuilder(headers),
+      body: jsonEncode(body),
+    );
+    return returnResponse(response);
+  }
 
-  void put() {}
+  Future<AppResponse> put({
+    required String path,
+    Map<String, String>? headers,
+    Map<String, dynamic>? query,
+    Map<String, dynamic>? body,
+  }) async {
+    log('Request: PUT');
+    log('Body: ${body.toString()}');
+    http.Response response = await http.put(
+      Uri.parse(_uriBuilder(path: path, query: query)),
+      headers: _headersBuilder(headers),
+      body: jsonEncode(body),
+    );
+    return returnResponse(response);
+  }
 
   Future<AppResponse> delete({
     required String path,
@@ -30,9 +60,22 @@ class AppHttpManager {
     log('Request: DELETE');
     http.Response response = await http.delete(
       Uri.parse(_uriBuilder(path: path, query: query)),
-      headers: headers,
+      headers: _headersBuilder(headers),
     );
     return returnResponse(response);
+  }
+
+  Map<String, String> _headersBuilder(Map<String, String>? headers) {
+    Map<String, String> allHeaders = {};
+    allHeaders[HttpHeaders.acceptHeader] = 'application/json';
+    allHeaders[HttpHeaders.contentTypeHeader] = 'application/json';
+    allHeaders[HttpHeaders.connectionHeader] = 'Keep-alive';
+
+    if (headers != null) {
+      headers.forEach((key, value) => allHeaders[key] = value);
+    }
+
+    return allHeaders;
   }
 
   String _uriBuilder({

@@ -1,16 +1,17 @@
-import 'dart:developer';
+import 'package:flutter_app/src/data/requests/payment_frequency_request.dart';
 import 'package:flutter_app/src/models/payment_frequency_model.dart';
+import 'package:flutter_app/src/services/app_http_manager.dart';
+import 'package:flutter_app/src/services/app_response.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 class AddPaymentFrequencyController extends GetxController {
   PaymentFrequencyModel? frecuenciaSeleccionada;
 
   String name = "";
   String description = "";
-  String recommendedPercentage = "";
-  String monthlyInstallments = "";
-  String daysInstallment = "";
+  int recommendedPercentage = 0;
+  int monthlyInstallments = 0;
+  int daysInstallment = 0;
   bool validando = false;
   bool editando = false;
 
@@ -23,11 +24,9 @@ class AddPaymentFrequencyController extends GetxController {
         name = frecuenciaSeleccionada?.name ?? '';
         description = frecuenciaSeleccionada?.description ?? '';
         recommendedPercentage =
-            frecuenciaSeleccionada?.recommendedPercentage.toString() ?? '';
-        monthlyInstallments =
-            frecuenciaSeleccionada?.monthlyInstallments.toString() ?? '';
-        daysInstallment =
-            frecuenciaSeleccionada?.daysInstallment.toString() ?? '';
+            frecuenciaSeleccionada?.recommendedPercentage ?? 1;
+        monthlyInstallments = frecuenciaSeleccionada?.monthlyInstallments ?? 1;
+        daysInstallment = frecuenciaSeleccionada?.daysInstallment ?? 1;
       }
     }
     super.onInit();
@@ -36,13 +35,9 @@ class AddPaymentFrequencyController extends GetxController {
   String? validar() {
     if (name.trim().isEmpty) return 'Este campo no debe ser vacio.';
     if (description.trim().isEmpty) return 'Este campo no debe ser vacio.';
-    if (recommendedPercentage.trim().isEmpty) {
-      return 'Este campo no debe ser vacio.';
-    }
-    if (monthlyInstallments.trim().isEmpty) {
-      return 'Este campo no debe ser vacio.';
-    }
-    if (daysInstallment.trim().isEmpty) return 'PhoneNumber no debe ser vacio.';
+    //if (recommendedPercentage.trim().isEmpty) {return 'Este campo no debe ser vacio.';}
+    //if (monthlyInstallments.trim().isEmpty) {return 'Este campo no debe ser vacio.';}
+    //if (daysInstallment.trim().isEmpty) return 'Este campo no debe ser vacio.';
     return null;
   }
 
@@ -55,45 +50,54 @@ class AddPaymentFrequencyController extends GetxController {
   }
 
   void onChangedRecommendedPercentage(String value) {
-    recommendedPercentage = value;
+    int? convertido = int.tryParse(value);
+    if (convertido != null) {
+      recommendedPercentage = convertido;
+    }
   }
 
   void onChangedMonthlyInstallments(String value) {
-    monthlyInstallments = value;
+    int? convertido = int.tryParse(value);
+    if (convertido != null) {
+      monthlyInstallments = convertido;
+    }
   }
 
   void onChangedDaysInstallment(String value) {
-    daysInstallment = value;
+    int? convertido = int.tryParse(value);
+    if (convertido != null) {
+      daysInstallment = convertido;
+    }
   }
 
-  Future<void> send() async {
+  Future<void> createPaymentFrequency() async {
     String? mensaje = validar();
     if (mensaje != null) {
       showSnackbar(mensaje);
       return;
     } else {
-      Uri url = Uri.http('10.0.2.2:3001', 'utils/payment-frequency/create');
+      AppHttpManager appHttpManager = AppHttpManager();
       validando = true;
       update(['validando']);
-
-      http.Response response = await http.post(url, body: {
-        'name': name,
-        'description': description,
-        'recommended_percentage': recommendedPercentage,
-        'monthly_installments': monthlyInstallments,
-        'days_installment': daysInstallment,
-      });
+      PaymentFrequencyRequest paymentFrequencyRequest = PaymentFrequencyRequest(
+        name: name,
+        description: description,
+        recommendedPercentage: recommendedPercentage,
+        monthlyInstallments: monthlyInstallments,
+        daysInstallment: daysInstallment,
+      );
+      AppResponse response = await appHttpManager.post(
+          path: '/utils/payment-frequency/create',
+          body: paymentFrequencyRequest.toJson());
       validando = false;
       update(['validando']);
 
-      log('Response status: ${response.statusCode}');
-      if (response.statusCode >= 200 && response.statusCode <= 299) {
-        PaymentFrequencyModel paymentFrequency =
+      if (response.isSuccess) {
+        PaymentFrequencyModel paymentFrequencyModel =
             addPaymentFrequencyModelFromJson(response.body);
-        Get.back(result: paymentFrequency);
+        Get.back(result: paymentFrequencyModel);
       } else {
-        showSnackbar('Ocurrio un error con el servidor');
-        log(response.body);
+        showSnackbar('Ocurrio un error en el servidor');
       }
     }
   }
@@ -104,29 +108,29 @@ class AddPaymentFrequencyController extends GetxController {
       showSnackbar(mensaje);
       return;
     } else {
-      Uri url = Uri.http('10.0.2.2:3001', 'utils/payment-frequency/update');
+      AppHttpManager appHttpManager = AppHttpManager();
       validando = true;
       update(['validando']);
-
-      http.Response response = await http.put(url, body: {
-        'id': frecuenciaSeleccionada?.id.toString(),
-        'name': name,
-        'description': description,
-        'recommended_percentage': recommendedPercentage,
-        'monthly_installments': monthlyInstallments,
-        'days_installment': daysInstallment,
-      });
+      PaymentFrequencyRequest paymentFrequencyRequest = PaymentFrequencyRequest(
+        id: frecuenciaSeleccionada?.id,
+        name: name,
+        description: description,
+        recommendedPercentage: recommendedPercentage,
+        monthlyInstallments: monthlyInstallments,
+        daysInstallment: daysInstallment,
+      );
+      AppResponse response = await appHttpManager.put(
+        path: '/utils/payment-frequency/update',
+        body: paymentFrequencyRequest.toJson(),
+      );
       validando = false;
       update(['validando']);
-
-      log('Response status: ${response.statusCode}');
-      if (response.statusCode >= 200 && response.statusCode <= 299) {
-        PaymentFrequencyModel paymentFrequency =
+      if (response.isSuccess) {
+        PaymentFrequencyModel paymentFrequencyModel =
             addPaymentFrequencyModelFromJson(response.body);
-        Get.back(result: paymentFrequency);
+        Get.back(result: paymentFrequencyModel);
       } else {
-        showSnackbar('Ocurrio un error con el servidor');
-        log(response.body);
+        showSnackbar('Ocurrio un error en el servidor');
       }
     }
   }

@@ -1,5 +1,8 @@
 import 'dart:developer';
+import 'package:flutter_app/src/data/requests/payment_method_request.dart';
 import 'package:flutter_app/src/models/payment_method_model.dart';
+import 'package:flutter_app/src/services/app_http_manager.dart';
+import 'package:flutter_app/src/services/app_response.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -44,26 +47,31 @@ class AddPaymentMethodController extends GetxController {
       showSnackbar(mensaje);
       return;
     } else {
-      Uri url = Uri.http('10.0.2.2:3001', 'utils/payment-method/create');
+      AppHttpManager appHttpManager = AppHttpManager();
       validando = true;
       update(['validando']);
-
-      http.Response response = await http.post(url, body: {
-        'name': name,
-        'description': description,
-      });
+      PaymentMethodRequest paymentMethodRequest = PaymentMethodRequest(
+        name: name,
+        description: description,
+      );
+      AppResponse response = await appHttpManager.post(
+          path: '/utils/payment-method/create',
+          body: paymentMethodRequest.toJson());
       validando = false;
       update(['validando']);
-
-      log('Response status: ${response.statusCode}');
-      if (response.statusCode >= 200 && response.statusCode <= 299) {
-        PaymentMethodModel paymentMethod =
+      if (response.isSuccess) {
+        PaymentMethodModel paymentMethodModel =
             addPaymentMethodModelFromJson(response.body);
-        Get.back(result: paymentMethod);
+        Get.back(result: paymentMethodModel);
       } else {
-        showSnackbar('Ocurrio un error con el servidor');
-        log(response.body);
+        showSnackbar('Ocurrio un error en el servidor');
       }
+
+      ///
+      /*http.Response response = await http.post(url, body: {
+        'name': name,
+        'description': description,
+      });*/
     }
   }
 
