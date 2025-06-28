@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/src/ui/pages/payment_frequency/add_payment_frequency_controller.dart';
+import 'package:flutter_app/src/ui/widgets/input_widget.dart';
 import 'package:get/get.dart';
 
 class AddPaymentFrequencyPage extends StatelessWidget {
@@ -29,42 +30,46 @@ class AddPaymentFrequencyPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 40, vertical: 30),
             child: Column(
               children: [
-                inputWidget(
-                  'name',
-                  Icons.abc,
-                  TextInputType.name,
-                  controller.onChangedName,
-                  controller.frecuenciaSeleccionada?.name,
+                InputWidget(
+                  hintText: 'name',
+                  iconData: Icons.abc,
+                  keyboardType: TextInputType.name,
+                  onChanged: controller.onChangedName,
+                  initialValue: controller.frecuenciaSeleccionada?.name,
                 ),
-                inputWidget(
-                  'description',
-                  Icons.abc,
-                  TextInputType.text,
-                  controller.onChangedDescription,
-                  controller.frecuenciaSeleccionada?.description,
+                InputWidget(
+                  hintText: 'description',
+                  iconData: Icons.abc,
+                  keyboardType: TextInputType.text,
+                  onChanged: controller.onChangedDescription,
+                  initialValue: controller.frecuenciaSeleccionada?.description,
                 ),
-                inputWidget(
-                  'porcentaje recomendado',
-                  Icons.percent,
-                  TextInputType.number,
-                  controller.onChangedRecommendedPercentage,
-                  controller.frecuenciaSeleccionada?.recommendedPercentage
+                InputWidget(
+                  hintText: 'porcentaje recomendado',
+                  iconData: Icons.percent,
+                  keyboardType: TextInputType.number,
+                  onChanged: controller.onChangedRecommendedPercentage,
+                  initialValue: controller
+                      .frecuenciaSeleccionada?.recommendedPercentage
                       .toString(),
                 ),
-                inputWidget(
-                  'cuotas mensuales',
-                  Icons.numbers,
-                  TextInputType.number,
-                  controller.onChangedMonthlyInstallments,
-                  controller.frecuenciaSeleccionada?.monthlyInstallments
+                InputWidget(
+                  hintText: 'cuotas mensuales',
+                  iconData: Icons.numbers,
+                  keyboardType: TextInputType.number,
+                  onChanged: controller.onChangedMonthlyInstallments,
+                  initialValue: controller
+                      .frecuenciaSeleccionada?.monthlyInstallments
                       .toString(),
                 ),
-                inputWidget(
-                  'cuotas diarias',
-                  Icons.numbers,
-                  TextInputType.number,
-                  controller.onChangedDaysInstallment,
-                  controller.frecuenciaSeleccionada?.daysInstallment.toString(),
+                InputWidget(
+                  hintText: 'cuotas diarias',
+                  iconData: Icons.numbers,
+                  keyboardType: TextInputType.number,
+                  onChanged: controller.onChangedDaysInstallment,
+                  initialValue: controller
+                      .frecuenciaSeleccionada?.daysInstallment
+                      .toString(),
                 )
               ],
             ),
@@ -91,25 +96,6 @@ class AddPaymentFrequencyPage extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget inputWidget(String hintText, IconData icon, TextInputType keyboardType,
-      void Function(String)? onChanged, String? initialValue) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: TextFormField(
-        initialValue: initialValue,
-        decoration: InputDecoration(
-          hintText: hintText,
-          prefixIcon: Icon(
-            icon,
-            color: Colors.redAccent,
-          ),
-        ),
-        keyboardType: keyboardType,
-        onChanged: onChanged,
       ),
     );
   }

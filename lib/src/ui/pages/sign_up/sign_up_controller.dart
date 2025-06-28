@@ -1,7 +1,8 @@
-import 'dart:developer';
+import 'package:flutter_app/src/data/requests/sign_up_request.dart';
 import 'package:flutter_app/src/models/user_model.dart';
+import 'package:flutter_app/src/services/app_http_manager.dart';
+import 'package:flutter_app/src/services/app_response.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 class SignUpController extends GetxController {
   String email = "";
@@ -50,22 +51,23 @@ class SignUpController extends GetxController {
       showSnackbar(mensaje);
       return;
     } else {
-      Uri url = Uri.https('10.0.2.2:3001', 'user/create');
+      AppHttpManager appHttpManager = AppHttpManager();
       validando = true;
       update(['validando']);
+      SignUpRequest signUpRequest = SignUpRequest(
+          email: email,
+          password: password,
+          firstName: firstName,
+          lastName: lastName,
+          phoneNumber: phoneNumber);
 
-      http.Response response = await http.post(url, body: {
-        'email': email,
-        'password': password,
-        'name': firstName,
-        'lastName': lastName,
-        'phoneNumber': phoneNumber,
-      });
+      AppResponse response = await appHttpManager.post(
+        path: '/user/create',
+        body: signUpRequest.toJson(),
+      );
       validando = false;
       update(['validando']);
-
-      log('Response status: ${response.statusCode}');
-      if (response.statusCode >= 200 && response.statusCode <= 299) {
+      if (response.isSuccess) {
         userModelFromJson(response.body);
       } else {
         showSnackbar('Ocurrio un error con el servidor');

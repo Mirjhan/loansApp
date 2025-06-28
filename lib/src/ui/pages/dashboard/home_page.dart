@@ -75,7 +75,7 @@ class HomePage extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: controller.goToClientes,
-          child: itemGridView('Clientesss', Icons.people),
+          child: itemGridView('Clientes', Icons.people),
         ),
         itemGridView('Prestamos', Icons.monetization_on),
         GestureDetector(
@@ -90,7 +90,7 @@ class HomePage extends StatelessWidget {
             onTap: controller.goToPaymentMethod,
             child: itemGridView(
                 'Metodo de \n     Pago', Icons.credit_card_rounded)),
-        itemGridView('Clientesss', Icons.ac_unit_outlined),
+        itemGridView('Clientes', Icons.ac_unit_outlined),
       ],
     );
   }

@@ -32,6 +32,8 @@ class AddClienteController extends GetxController {
         document = clienteSeleccionado?.document ?? '';
       }
     }
+    // consultar los tipos de documento
+    // crear un metodo que se conecte al servidor y que traiga los utils/type-document
     super.onInit();
   }
 

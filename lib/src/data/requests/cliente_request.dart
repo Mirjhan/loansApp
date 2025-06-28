@@ -19,6 +19,11 @@ class ClienteRequest {
     required this.document,
   });
 
+  // final cliente1 = ClienteRequest.fromJson({"nombre": "Jose"});
+
+  String get fullName => '$name $lastName';
+  set setName(String value) => name = value;
+
   factory ClienteRequest.fromJson(Map<String, dynamic> json) => ClienteRequest(
       id: json['id'],
       name: json['name'],

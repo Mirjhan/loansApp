@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/src/ui/pages/sign_up/sign_up_controller.dart';
+import 'package:flutter_app/src/ui/widgets/input_widget.dart';
 import 'package:get/get.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -73,33 +74,32 @@ class SignUpPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
         child: Column(
           children: [
-            inputWidget(
+            InputWidget(
               hintText: 'email',
-              icon: Icons.email_outlined,
+              iconData: Icons.email_outlined,
               keyboardType: TextInputType.emailAddress,
               onChanged: controller.onChangedEmail,
             ),
-            inputWidget(
+            InputWidget(
               hintText: 'password',
-              icon: Icons.lock_outline_rounded,
+              iconData: Icons.lock_outline_rounded,
               keyboardType: TextInputType.number,
               onChanged: controller.onChangedPassword,
             ),
-            inputWidget(
+            InputWidget(
               hintText: 'firstName',
-              icon: Icons.person_2_outlined,
-              keyboardType: TextInputType.name,
+              iconData: Icons.person_2_outlined,
               onChanged: controller.onChangedFirstName,
             ),
-            inputWidget(
+            InputWidget(
               hintText: 'lastName',
-              icon: Icons.person_3_outlined,
+              iconData: Icons.person_3_outlined,
               keyboardType: TextInputType.name,
               onChanged: controller.onChangedLastName,
             ),
-            inputWidget(
+            InputWidget(
               hintText: 'phoneNumber',
-              icon: Icons.phone_enabled_outlined,
+              iconData: Icons.phone_enabled_outlined,
               keyboardType: TextInputType.number,
               onChanged: controller.onChangedPhoneNumber,
             ),
@@ -110,27 +110,6 @@ class SignUpPage extends StatelessWidget {
             // CADA METODO TIENE QUE HACER UNA COSA.
           ],
         ),
-      ),
-    );
-  }
-
-  Widget inputWidget({
-    required String hintText,
-    required IconData icon,
-    required TextInputType keyboardType,
-    void Function(String)? onChanged,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: TextFormField(
-        decoration: InputDecoration(
-          hintText: hintText,
-          prefixIcon: Icon(
-            icon,
-          ),
-        ),
-        keyboardType: keyboardType,
-        onChanged: onChanged,
       ),
     );
   }

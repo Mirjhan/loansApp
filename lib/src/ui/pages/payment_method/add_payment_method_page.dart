@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/src/ui/pages/payment_method/add_payment_method_controller.dart';
+import 'package:flutter_app/src/ui/widgets/input_widget.dart';
 import 'package:get/get.dart';
 
 class AddPaymentMethodPage extends StatelessWidget {
@@ -28,19 +29,19 @@ class AddPaymentMethodPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 40, vertical: 30),
             child: Column(
               children: [
-                inputWidget(
-                  'name',
-                  Icons.abc,
-                  TextInputType.name,
-                  controller.onChangedName,
-                  controller.metodoSeleccionado?.name,
+                InputWidget(
+                  hintText: 'name',
+                  iconData: Icons.abc,
+                  keyboardType: TextInputType.name,
+                  onChanged: controller.onChangedName,
+                  initialValue: controller.metodoSeleccionado?.name,
                 ),
-                inputWidget(
-                  'description',
-                  Icons.abc,
-                  TextInputType.text,
-                  controller.onChangedDescription,
-                  controller.metodoSeleccionado?.description,
+                InputWidget(
+                  hintText: 'description',
+                  iconData: Icons.abc,
+                  keyboardType: TextInputType.text,
+                  onChanged: controller.onChangedDescription,
+                  initialValue: controller.metodoSeleccionado?.description,
                 ),
               ],
             ),
@@ -65,25 +66,6 @@ class AddPaymentMethodPage extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget inputWidget(String hintText, IconData icon, TextInputType keyboardType,
-      void Function(String)? onChanged, String? initialValue) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: TextFormField(
-        initialValue: initialValue,
-        decoration: InputDecoration(
-          hintText: hintText,
-          prefixIcon: Icon(
-            icon,
-            color: Colors.redAccent,
-          ),
-        ),
-        keyboardType: keyboardType,
-        onChanged: onChanged,
       ),
     );
   }

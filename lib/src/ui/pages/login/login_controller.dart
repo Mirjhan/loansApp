@@ -1,9 +1,10 @@
-import 'dart:developer';
+import 'package:flutter_app/src/data/requests/login_request.dart';
 import 'package:flutter_app/src/models/user_model.dart';
+import 'package:flutter_app/src/services/app_http_manager.dart';
+import 'package:flutter_app/src/services/app_response.dart';
 import 'package:flutter_app/src/ui/pages/dashboard/home_page.dart';
 import 'package:flutter_app/src/ui/pages/sign_up/sign_up_page.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
@@ -32,18 +33,18 @@ class LoginController extends GetxController {
       showSnackbar(mensaje);
       return;
     }
-
-    Uri url = Uri.http('10.0.2.2:3001', 'auth/login');
+    AppHttpManager appHttpManager = AppHttpManager();
     validando = true;
     update(['validando']);
-
-    http.Response response =
-        await http.post(url, body: {'email': email, 'password': password});
+    LoginRequest loginRequest = LoginRequest(
+      email: email,
+      password: password,
+    );
+    AppResponse response = await appHttpManager.post(
+        path: '/auth/login', body: loginRequest.toJson());
     validando = false;
     update(['validando']);
-
-    log('Response status: ${response.statusCode}');
-    if (response.statusCode >= 200 && response.statusCode <= 299) {
+    if (response.isSuccess) {
       userModelFromJson(response.body);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('estaLogeado', true);

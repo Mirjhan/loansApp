@@ -1,10 +1,8 @@
-import 'dart:developer';
 import 'package:flutter_app/src/data/requests/payment_method_request.dart';
 import 'package:flutter_app/src/models/payment_method_model.dart';
 import 'package:flutter_app/src/services/app_http_manager.dart';
 import 'package:flutter_app/src/services/app_response.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 class AddPaymentMethodController extends GetxController {
   PaymentMethodModel? metodoSeleccionado;
@@ -81,26 +79,25 @@ class AddPaymentMethodController extends GetxController {
       showSnackbar(mensaje);
       return;
     } else {
-      Uri url = Uri.http('10.0.2.2:3001', 'utils/payment-method/update');
+      AppHttpManager appHttpManager = AppHttpManager();
       validando = true;
       update(['validando']);
-
-      http.Response response = await http.put(url, body: {
-        'id': metodoSeleccionado?.id.toString(),
-        'name': name,
-        'description': description,
-      });
+      PaymentMethodRequest paymentMethodRequest = PaymentMethodRequest(
+        id: metodoSeleccionado?.id,
+        name: name,
+        description: description,
+      );
+      AppResponse response = await appHttpManager.put(
+          path: '/utils/payment-method/update',
+          body: paymentMethodRequest.toJson());
       validando = false;
       update(['validando']);
-
-      log('Response status: ${response.statusCode}');
-      if (response.statusCode >= 200 && response.statusCode <= 299) {
-        PaymentMethodModel paymentFrequency =
+      if (response.isSuccess) {
+        PaymentMethodModel paymentMethod =
             addPaymentMethodModelFromJson(response.body);
-        Get.back(result: paymentFrequency);
+        Get.back(result: paymentMethod);
       } else {
         showSnackbar('Ocurrio un error con el servidor');
-        log(response.body);
       }
     }
   }

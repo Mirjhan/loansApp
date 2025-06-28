@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/src/ui/pages/cliente/add_cliente_controller.dart';
+import 'package:flutter_app/src/ui/widgets/input_widget.dart';
 import 'package:get/get.dart';
 
 class AddClientePage extends StatelessWidget {
@@ -26,52 +27,52 @@ class AddClientePage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 40, vertical: 30),
             child: Column(
               children: [
-                inputWidget(
+                InputWidget(
                   hintText: 'name',
-                  icon: Icons.abc,
+                  iconData: Icons.abc,
                   keyboardType: TextInputType.name,
                   onChanged: controller.onChangedName,
                   initialValue: controller.clienteSeleccionado?.name,
                 ),
-                inputWidget(
+                InputWidget(
                   hintText: 'lastName',
-                  icon: Icons.abc,
+                  iconData: Icons.abc,
                   keyboardType: TextInputType.name,
                   onChanged: controller.onChangedLastName,
                   initialValue: controller.clienteSeleccionado?.lastName,
                 ),
-                inputWidget(
+                InputWidget(
                   hintText: 'address',
-                  icon: Icons.email,
+                  iconData: Icons.email,
                   keyboardType: TextInputType.emailAddress,
                   onChanged: controller.onChangedAddress,
                   initialValue: controller.clienteSeleccionado?.address,
                 ),
-                inputWidget(
+                InputWidget(
                   hintText: 'latitude',
-                  icon: Icons.abc_sharp,
+                  iconData: Icons.abc_sharp,
                   keyboardType: TextInputType.name,
                   onChanged: controller.onChangedLatitude,
                   initialValue: controller.clienteSeleccionado?.latitude,
                 ),
-                inputWidget(
+                InputWidget(
                   hintText: 'longitude',
-                  icon: Icons.abc,
+                  iconData: Icons.abc,
                   keyboardType: TextInputType.name,
                   onChanged: controller.onChangedLongitude,
                   initialValue: controller.clienteSeleccionado?.longitude,
                 ),
-                inputWidget(
+                InputWidget(
                   hintText: 'idTypeDocument',
-                  icon: Icons.numbers,
+                  iconData: Icons.numbers,
                   keyboardType: TextInputType.number,
                   onChanged: (p0) => controller.onChangedIdTypeDocument,
                   initialValue:
                       controller.clienteSeleccionado?.idTypeDocument.toString(),
                 ),
-                inputWidget(
+                InputWidget(
                   hintText: 'document',
-                  icon: Icons.perm_identity_sharp,
+                  iconData: Icons.perm_identity_sharp,
                   keyboardType: TextInputType.number,
                   onChanged: controller.onChangedDocument,
                   initialValue: controller.clienteSeleccionado?.document,
@@ -100,30 +101,6 @@ class AddClientePage extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget inputWidget({
-    required String hintText,
-    required IconData icon,
-    required TextInputType keyboardType,
-    required void Function(String)? onChanged,
-    required String? initialValue,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: TextFormField(
-        initialValue: initialValue,
-        decoration: InputDecoration(
-          hintText: hintText,
-          prefixIcon: Icon(
-            icon,
-            color: Colors.redAccent,
-          ),
-        ),
-        keyboardType: keyboardType,
-        onChanged: onChanged,
       ),
     );
   }
