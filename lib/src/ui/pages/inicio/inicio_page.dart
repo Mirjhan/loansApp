@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/src/ui/pages/dashboard/drawer_widget.dart';
-import 'package:flutter_app/src/ui/pages/dashboard/home_controller.dart';
+import 'package:flutter_app/src/ui/pages/inicio/drawer_widget.dart';
+import 'package:flutter_app/src/ui/pages/inicio/inicio_controller.dart';
 import 'package:get/get.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
-  final HomeController controller = HomeController();
+class InicioPage extends StatelessWidget {
+  InicioPage({super.key});
+  final InicioController controller = InicioController();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(
+    return GetBuilder<InicioController>(
       init: controller,
       builder: (controller) => Scaffold(
         appBar: AppBar(
@@ -36,31 +36,6 @@ class HomePage extends StatelessWidget {
               cards(),
             ],
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.email_outlined),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.credit_card),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_none),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings_outlined),
-              label: '',
-            ),
-          ],
-          type: BottomNavigationBarType.fixed,
         ),
       ),
     );

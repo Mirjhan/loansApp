@@ -62,14 +62,28 @@ class AddClientePage extends StatelessWidget {
                   onChanged: controller.onChangedLongitude,
                   initialValue: controller.clienteSeleccionado?.longitude,
                 ),
-                InputWidget(
+                DropdownButton<int>(
+                  hint: Text('Selecione el tipo de documento'),
+                  items: controller.typeDocuments
+                      .map(
+                        (e) => DropdownMenuItem(
+                          value: e.id,
+                          child: Text(e.name),
+                        ),
+                      )
+                      .toList(),
+                  isExpanded: true,
+                  value: controller.idTypeDocument,
+                  onChanged: controller.onChangedIdTypeDocument,
+                ),
+                /* InputWidget(
                   hintText: 'idTypeDocument',
                   iconData: Icons.numbers,
                   keyboardType: TextInputType.number,
                   onChanged: (p0) => controller.onChangedIdTypeDocument,
                   initialValue:
                       controller.clienteSeleccionado?.idTypeDocument.toString(),
-                ),
+                ), */
                 InputWidget(
                   hintText: 'document',
                   iconData: Icons.perm_identity_sharp,

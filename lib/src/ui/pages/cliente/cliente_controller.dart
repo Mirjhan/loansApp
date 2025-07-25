@@ -39,6 +39,11 @@ class ClienteController extends GetxController {
 
     if (result != null) {
       clientes[position] = result;
+      Get.snackbar(
+        'Exito',
+        'Cliente editado',
+        backgroundColor: Colors.green,
+      );
       update();
     }
   }
@@ -89,6 +94,7 @@ class ClienteController extends GetxController {
     ClienteModel? result = await Get.to<ClienteModel>(() => AddClientePage());
     if (result != null) {
       clientes.add(result);
+      Get.snackbar('Exito', 'Cliente agregado');
       update();
     }
   }

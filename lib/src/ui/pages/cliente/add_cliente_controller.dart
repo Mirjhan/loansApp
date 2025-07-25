@@ -1,18 +1,20 @@
 import 'package:flutter_app/src/data/requests/cliente_request.dart';
 import 'package:flutter_app/src/models/cliente_model.dart';
+import 'package:flutter_app/src/models/type_document_model.dart';
 import 'package:flutter_app/src/services/app_http_manager.dart';
 import 'package:flutter_app/src/services/app_response.dart';
 import 'package:get/get.dart';
 
 class AddClienteController extends GetxController {
   ClienteModel? clienteSeleccionado;
+  List<TypeDocumentModel> typeDocuments = [];
 
-  String name = "";
+  String name = "CE";
   String lastName = "";
   String address = "";
   String latitude = "";
   String longitude = "";
-  int idTypeDocument = 1;
+  int? idTypeDocument;
   String document = "";
   bool validando = false;
   bool editando = false;
@@ -32,15 +34,31 @@ class AddClienteController extends GetxController {
         document = clienteSeleccionado?.document ?? '';
       }
     }
-    // consultar los tipos de documento
-    // crear un metodo que se conecte al servidor y que traiga los utils/type-document
+    getTypeDocument();
     super.onInit();
+  }
+
+  Future<void> getTypeDocument() async {
+    AppHttpManager appHttpManager = AppHttpManager();
+    validando = true;
+    update(['validando']);
+    AppResponse response =
+        await appHttpManager.get(path: '/utils/type-document');
+    validando = false;
+    update(['validando']);
+    if (response.isSuccess) {
+      typeDocuments = typeDocumentModelFromJson(response.body);
+      update();
+    } else {
+      showSnackbar('Ocurrio un error en el servidor');
+    }
   }
 
   String? validar() {
     if (name.isEmpty) return 'Este campo no debe ser vacio.';
     if (lastName.isEmpty) return 'Este campo no debe ser vacio.';
     if (address.isEmpty) return 'Este campo no debe ser vacio.';
+    if (idTypeDocument != null) return 'TypeDocument no debe ser nulo.';
     if (document.isEmpty) return 'Este campo no debe ser vacio.';
     return null;
   }
@@ -65,12 +83,12 @@ class AddClienteController extends GetxController {
     longitude = value;
   }
 
-  void onChangedIdTypeDocument(String value) {
+  /* void onChangedIdTypeDocument(String value) {
     int? convertido = int.tryParse(value);
     if (convertido != null) {
       idTypeDocument = convertido;
     }
-  }
+  } */
 
   void onChangedDocument(String value) {
     document = value;
@@ -91,7 +109,7 @@ class AddClienteController extends GetxController {
         address: address,
         latitude: latitude,
         longitude: longitude,
-        idTypeDocument: idTypeDocument,
+        idTypeDocument: idTypeDocument!,
         document: document,
       );
       AppResponse response = await appHttpManager.post(
@@ -123,7 +141,7 @@ class AddClienteController extends GetxController {
         address: address,
         latitude: latitude,
         longitude: longitude,
-        idTypeDocument: idTypeDocument,
+        idTypeDocument: idTypeDocument!,
         document: document,
       );
 
@@ -140,6 +158,12 @@ class AddClienteController extends GetxController {
         showSnackbar('Ocurrio un error con el servidor');
       }
     }
+  }
+
+  void onChangedIdTypeDocument(int? value) {
+    if (value == null) return;
+    idTypeDocument = value;
+    update();
   }
 
   void showSnackbar(String message) {

@@ -2,7 +2,7 @@ import 'package:flutter_app/src/data/requests/login_request.dart';
 import 'package:flutter_app/src/models/user_model.dart';
 import 'package:flutter_app/src/services/app_http_manager.dart';
 import 'package:flutter_app/src/services/app_response.dart';
-import 'package:flutter_app/src/ui/pages/dashboard/home_page.dart';
+import 'package:flutter_app/src/ui/pages/dashboard/content_page.dart';
 import 'package:flutter_app/src/ui/pages/sign_up/sign_up_page.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,7 +16,7 @@ class LoginController extends GetxController {
   void onInit() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     if (preferences.getBool('estaLogeado') ?? false) {
-      Get.off(() => HomePage());
+      Get.off(() => ContentPage());
     }
     super.onInit();
   }
@@ -48,7 +48,7 @@ class LoginController extends GetxController {
       userModelFromJson(response.body);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('estaLogeado', true);
-      Get.off(() => HomePage());
+      Get.off(() => ContentPage());
     } else {
       showSnackbar('Ocurrio un error con el servidor');
     }
